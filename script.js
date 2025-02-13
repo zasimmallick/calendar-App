@@ -9,8 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const addTodoBtn = document.getElementById("addTodo");
     const todoList = document.getElementById("todoList");
     const selectedDateElement = document.getElementById("selectedDate");
+    const noteInput = document.getElementById("noteInput");
+    const addNoteBtn = document.getElementById("addNote");
+    const notesList = document.getElementById("notesList");
+    const notesDateElement = document.getElementById("notesDate");
     let selectedDate = null;
     let tasks = {};
+    let notes = {};
 
     let currentDate = new Date();
     
@@ -110,6 +115,39 @@ document.addEventListener("DOMContentLoaded", function () {
         displayTasks();
     }
 
+    function displayNotes() {
+        notesList.innerHTML = "";
+        if (!selectedDate) return;
+        
+        const dateKey = selectedDate.toISOString().split('T')[0];
+        (notes[dateKey] || []).forEach((note, index) => {
+            const noteElement = document.createElement("div");
+            noteElement.className = "group relative p-4 rounded-lg bg-slate-800/30 border border-slate-700/30";
+            noteElement.innerHTML = `
+                <p class="text-slate-200/80 whitespace-pre-wrap">${note}</p>
+                <button class="absolute -top-2 -right-2 btn btn-circle btn-xs btn-ghost text-red-400/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                    ✕
+                </button>
+            `;
+            
+            noteElement.querySelector('button').addEventListener('click', () => deleteNote(dateKey, index));
+            notesList.appendChild(noteElement);
+        });
+    }
+
+    function addNote() {
+        if (!selectedDate || !noteInput.value.trim()) return;
+        const dateKey = selectedDate.toISOString().split('T')[0];
+        notes[dateKey] = [...(notes[dateKey] || []), noteInput.value.trim()];
+        noteInput.value = "";
+        displayNotes();
+    }
+
+    function deleteNote(dateKey, index) {
+        notes[dateKey].splice(index, 1);
+        displayNotes();
+    }
+
     prevMonthBtn.addEventListener("click", () => {
         currentDate.setMonth(currentDate.getMonth() - 1);
         renderCalendar();
@@ -142,11 +180,16 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             renderCalendar();
             displayTasks();
+            notesDateElement.textContent = selectedDate.toLocaleDateString('en-US', {
+                weekday: 'short', month: 'short', day: 'numeric'
+            });
+            displayNotes();
         }
     });
 
     addTodoBtn.addEventListener("click", addTask);
     todoInput.addEventListener("keypress", (e) => e.key === 'Enter' && addTask());
+    addNoteBtn.addEventListener("click", addNote);
 
     renderCalendar();
 });
