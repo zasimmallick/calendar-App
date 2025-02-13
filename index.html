@@ -8,21 +8,64 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css">
     <script defer src="script.js"></script>
     <style>
+        body {
+            background: linear-gradient(to bottom right, rgb(3 6 23), rgb(8 18 55));
+        }
+        
+        /* Futuristic glassmorphism */
+        [class*="bg-slate-900/80"] {
+            background: rgba(15 23 42 / 0.4) !important;
+            backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(255 255 255 / 0.15) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0 0 0 / 0.2);
+        }
+
+        /* Holographic border effect */
+        [class*="bg-slate-900/80"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0 0 0 / 0.3),
+                        inset 0 0 12px rgba(98 234 213 / 0.2);
+        }
+
+        /* Neon text shadows */
+        .neon-text {
+            text-shadow: 0 0 8px rgb(98 234 213 / 0.3);
+        }
+
+        /* Calendar day enhancements */
+        .calendar-day {
+            background: rgba(8, 16, 27, 0.3);
+            border: 1px solid rgba(255 255 255 / 0.1);
+            transition: all 0.2s ease;
+        }
+
+        /* Futuristic input fields */
+        .futuristic-input {
+            background: rgba(15 23 42 / 0.4) !important;
+            border: 1px solid rgba(98 234 213 / 0.2) !important;
+            transition: all 0.3s ease;
+        }
+
         @media (max-width: 768px) {
             #liveClock { font-size: 1.1rem; }
             .calendar-day { font-size: 0.9rem; }
+            [class*="bg-slate-900/80"] {
+                backdrop-filter: blur(16px);
+            }
         }
+        
     </style>
 </head>
-<body class="grid grid-cols-1 md:grid-cols-3 gap-4 min-h-screen p-4 sm:p-8 bg-gradient-to-br from-indigo-950 to-blue-950">
+<body class="grid grid-cols-1 md:grid-cols-3 gap-5 min-h-screen p-4 sm:p-8 bg-gradient-to-br from-indigo-950 via-slate-900 to-blue-950">
 
-    <!-- Clock Widget -->
-    <div class="bg-slate-900/80 backdrop-blur-lg shadow-xl shadow-blue-900/20 rounded-2xl p-4 sm:p-6 border border-slate-900/30 flex items-center justify-center col-span-1 md:col-span-3">
-        <div id="liveClock" class="text-xl sm:text-2xl font-semibold text-emerald-400/90"></div>
+    <!-- Updated Clock Widget -->
+    <div class="bg-slate-900/80 shadow-2xl shadow-cyan-500/10 rounded-xl p-6 border border-cyan-500/20 flex items-center justify-center col-span-1 md:col-span-3">
+        <div id="liveClock" class="text-2xl sm:text-3xl font-bold text-cyan-400/90 neon-text"></div>
     </div>
 
-    <!-- Calendar Widget -->
-    <div class="bg-slate-900/80 backdrop-blur-lg shadow-xl shadow-blue-900/20 rounded-2xl p-4 sm:p-6 border border-slate-900/30 col-span-1 md:col-span-2 md:row-span-2">
+    <!-- Updated Calendar Widget -->
+    <div class="bg-slate-900/80 shadow-2xl shadow-cyan-500/10 rounded-xl p-6 border border-cyan-500/20 col-span-1 md:col-span-2 md:row-span-2">
         <div class="flex justify-between items-center mb-4 sm:mb-6">
             <button id="prevMonth" class="btn btn-circle btn-sm btn-ghost text-slate-200/80 hover:text-white hover:bg-slate-800/30">❮</button>
             <h2 id="currentMonth" class="text-base sm:text-lg font-semibold text-slate-200/90"></h2>
@@ -32,33 +75,33 @@
             <select id="monthSelect" class="select select-sm bg-slate-800/30 text-slate-200/80 focus:outline-none flex-1"></select>
             <input id="yearInput" type="number" class="input input-sm bg-slate-800/30 text-slate-200/80 focus:outline-none w-full sm:w-24">
         </div>
-        <div class="grid grid-cols-7 gap-1 sm:gap-2 text-center font-medium text-slate-200/60 mb-2 sm:mb-4">
-            <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+        <div class="grid grid-cols-7 gap-2 text-center font-medium text-slate-200/60 mb-4">
+            <div class="text-cyan-400/80">SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div class="text-cyan-400/80">SAT</div>
         </div>
-        <div id="calendarDays" class="grid grid-cols-7 gap-1 sm:gap-2"></div>
+        <div id="calendarDays" class="grid grid-cols-7 gap-2"></div>
     </div>
 
-    <!-- Todo Widget -->
-    <div class="bg-slate-900/80 backdrop-blur-lg shadow-xl shadow-blue-900/20 rounded-2xl p-4 sm:p-6 border border-slate-900/30 h-full">
-        <div class="flex items-center gap-3 mb-4 sm:mb-6">
-            <h2 class="text-base sm:text-lg font-semibold text-slate-200/90">To-Do List</h2>
-            <span id="selectedDate" class="text-xs sm:text-sm text-emerald-400/80"></span>
+    <!-- Updated Todo Widget -->
+    <div class="bg-slate-900/80 shadow-2xl shadow-cyan-500/10 rounded-xl p-6 border border-cyan-500/20 h-full">
+        <div class="flex items-center gap-3 mb-6">
+            <h2 class="text-lg font-semibold text-cyan-400/90 neon-text">TASKS</h2>
+            <span id="selectedDate" class="text-sm text-cyan-400/60"></span>
         </div>
-        <div class="flex gap-2 mb-4 flex-col sm:flex-row">
-            <input id="todoInput" type="text" placeholder="Add a task..." 
-                   class="input input-sm bg-slate-800/30 text-slate-200/80 focus:outline-none flex-1">
-            <button id="addTodo" class="btn btn-sm bg-emerald-600/60 hover:bg-emerald-600/80 border-none text-white">
-                Add
+        <div class="flex gap-2 mb-4 flex-col">
+            <input id="todoInput" type="text" placeholder="New mission..." 
+                   class="futuristic-input input input-lg text-slate-200/90 placeholder-cyan-400/30">
+            <button id="addTodo" class="btn btn-lg bg-gradient-to-r from-cyan-600/40 to-blue-600/40 hover:from-cyan-600/60 hover:to-blue-600/60 border-none text-cyan-400/90 neon-text">
+                ➕ Add Task
             </button>
         </div>
         <div id="todoList" class="space-y-2"></div>
     </div>
 
-    <!-- Notes Widget -->
-    <div class="bg-slate-900/80 backdrop-blur-lg shadow-xl shadow-blue-900/20 rounded-2xl p-4 sm:p-6 border border-slate-900/30 h-full">
-        <div class="flex items-center gap-3 mb-4 sm:mb-6">
-            <h2 class="text-base sm:text-lg font-semibold text-slate-200/90">Daily Notes</h2>
-            <span id="notesDate" class="text-xs sm:text-sm text-amber-400/80"></span>
+    <!-- Updated Notes Widget -->
+    <div class="bg-slate-900/80 shadow-2xl shadow-cyan-500/10 rounded-xl p-6 border border-cyan-500/20 h-full">
+        <div class="flex items-center gap-3 mb-6">
+            <h2 class="text-lg font-semibold text-cyan-400/90 neon-text">NOTES</h2>
+            <span id="notesDate" class="text-sm text-cyan-400/60"></span>
         </div>
         <div class="flex flex-col gap-3 sm:gap-4">
             <textarea id="noteInput" placeholder="Write your note..." 
