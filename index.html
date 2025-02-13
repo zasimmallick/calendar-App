@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css">
     <script defer src="script.js"></script>
 </head>
-<body class="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-950 to-blue-950">
+<body class="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-950 to-blue-950 gap-8 flex-wrap p-4">
 
     <div class="bg-slate-900/80 backdrop-blur-lg shadow-xl shadow-blue-900/20 rounded-2xl p-6 w-[28rem] border border-slate-900/30">
         <div class="flex justify-between items-center mb-6">
@@ -25,6 +25,21 @@
             <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
         </div>
         <div id="calendarDays" class="grid grid-cols-7 gap-2"></div>
+    </div>
+
+    <div class="bg-slate-900/80 backdrop-blur-lg shadow-xl shadow-blue-900/20 rounded-2xl p-6 w-[28rem] border border-slate-900/30">
+        <div class="flex items-center gap-3 mb-6">
+            <h2 class="text-lg font-semibold text-slate-200/90">To-Do List</h2>
+            <span id="selectedDate" class="text-sm text-emerald-400/80"></span>
+        </div>
+        <div class="flex gap-2 mb-4">
+            <input id="todoInput" type="text" placeholder="Add a task..." 
+                   class="input input-sm bg-slate-800/30 text-slate-200/80 focus:outline-none flex-1">
+            <button id="addTodo" class="btn btn-sm bg-emerald-600/60 hover:bg-emerald-600/80 border-none text-white">
+                Add
+            </button>
+        </div>
+        <div id="todoList" class="space-y-2"></div>
     </div>
 
 </body>

@@ -5,7 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const nextMonthBtn = document.getElementById("nextMonth");
     const monthSelect = document.getElementById("monthSelect");
     const yearInput = document.getElementById("yearInput");
+    const todoInput = document.getElementById("todoInput");
+    const addTodoBtn = document.getElementById("addTodo");
+    const todoList = document.getElementById("todoList");
+    const selectedDateElement = document.getElementById("selectedDate");
     let selectedDate = null;
+    let tasks = {};
 
     let currentDate = new Date();
     
@@ -62,6 +67,49 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function displayTasks() {
+        todoList.innerHTML = "";
+        if (!selectedDate) return;
+        
+        const dateKey = selectedDate.toISOString().split('T')[0];
+        (tasks[dateKey] || []).forEach((task, index) => {
+            const taskElement = document.createElement("div");
+            taskElement.className = `flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 ${task.completed ? 'opacity-60' : ''}`;
+            taskElement.innerHTML = `
+                <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                       class="checkbox checkbox-sm border-slate-600/80 bg-slate-800/30">
+                <span class="flex-1 text-slate-200/80 ${task.completed ? 'line-through' : ''}">${task.text}</span>
+                <button class="btn btn-xs btn-ghost text-red-400/80 hover:text-red-400">✕</button>
+            `;
+            
+            const checkbox = taskElement.querySelector('input[type="checkbox"]');
+            const deleteBtn = taskElement.querySelector('button');
+            
+            checkbox.addEventListener('change', () => toggleTask(dateKey, index));
+            deleteBtn.addEventListener('click', () => deleteTask(dateKey, index));
+            
+            todoList.appendChild(taskElement);
+        });
+    }
+
+    function addTask() {
+        if (!selectedDate || !todoInput.value.trim()) return;
+        const dateKey = selectedDate.toISOString().split('T')[0];
+        tasks[dateKey] = [...(tasks[dateKey] || []), { text: todoInput.value.trim(), completed: false }];
+        todoInput.value = "";
+        displayTasks();
+    }
+
+    function toggleTask(dateKey, index) {
+        tasks[dateKey][index].completed = !tasks[dateKey][index].completed;
+        displayTasks();
+    }
+
+    function deleteTask(dateKey, index) {
+        tasks[dateKey].splice(index, 1);
+        displayTasks();
+    }
+
     prevMonthBtn.addEventListener("click", () => {
         currentDate.setMonth(currentDate.getMonth() - 1);
         renderCalendar();
@@ -89,10 +137,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentDate.getMonth(),
                 e.target.dataset.day
             );
+            selectedDateElement.textContent = selectedDate.toLocaleDateString('en-US', {
+                weekday: 'short', month: 'short', day: 'numeric'
+            });
             renderCalendar();
-            // You can add custom logic for date selection here
+            displayTasks();
         }
     });
+
+    addTodoBtn.addEventListener("click", addTask);
+    todoInput.addEventListener("keypress", (e) => e.key === 'Enter' && addTask());
 
     renderCalendar();
 });
