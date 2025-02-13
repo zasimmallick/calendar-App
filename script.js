@@ -168,6 +168,20 @@ document.addEventListener("DOMContentLoaded", function () {
         renderCalendar();
     });
 
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', {
+            hour12: true,
+            hour: 'numeric',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        document.getElementById('liveClock').textContent = timeString;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial call
+
     calendarDays.addEventListener("click", (e) => {
         if (e.target.dataset.day) {
             selectedDate = new Date(
@@ -175,14 +189,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentDate.getMonth(),
                 e.target.dataset.day
             );
-            selectedDateElement.textContent = selectedDate.toLocaleDateString('en-US', {
+            const dateString = selectedDate.toLocaleDateString('en-US', {
                 weekday: 'short', month: 'short', day: 'numeric'
             });
+            selectedDateElement.textContent = dateString;
+            notesDateElement.textContent = dateString;
             renderCalendar();
             displayTasks();
-            notesDateElement.textContent = selectedDate.toLocaleDateString('en-US', {
-                weekday: 'short', month: 'short', day: 'numeric'
-            });
             displayNotes();
         }
     });
