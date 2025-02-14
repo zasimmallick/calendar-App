@@ -38,6 +38,7 @@
             background: rgba(8, 16, 27, 0.3);
             border: 1px solid rgba(255 255 255 / 0.1);
             transition: all 0.2s ease;
+            min-height: 60px;
         }
 
         /* Futuristic input fields */
@@ -47,9 +48,21 @@
             transition: all 0.3s ease;
         }
 
+        .ramadan-marker {
+            content: "🕌";
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
         @media (max-width: 768px) {
             #liveClock { font-size: 1.1rem; }
-            .calendar-day { font-size: 0.9rem; }
+            .calendar-day {
+                min-height: 50px;
+                padding: 0.25rem;
+            }
             [class*="bg-slate-900/80"] {
                 backdrop-filter: blur(16px);
             }
@@ -113,5 +126,9 @@
         </div>
     </div>
 
+    
+
 </body>
 </html>
+
+
