@@ -86,12 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let day = 1; day <= lastDate; day++) {
             const dayDate = new Date(year, month, day);
             const isWeekend = dayDate.getDay() === 0 || dayDate.getDay() === 6;
-            let dayClass = "p-2 text-center rounded-lg cursor-pointer";
+            let dayClass = "p-2 text-center rounded-lg cursor-pointer relative overflow-hidden";
             
             let today = new Date();
             
             if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                dayClass += " bg-blue-600/60 text-white shadow-lg shadow-blue-500/20";
+                dayClass += " text-white shadow-lg shadow-blue-500/40";
             } else {
                 dayClass += " text-slate-200/80 hover:bg-slate-800/20";
             }
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (selectedDate && dayDate.getTime() === selectedDate.getTime()) {
-                dayClass += " bg-emerald-600/60 text-white shadow-lg shadow-emerald-500/20";
+                dayClass += " bg-gradient-to-br from-emerald-600/60 to-cyan-600/60 shadow-lg shadow-emerald-500/30";
             }
 
             const isRamadan = dayDate >= ramadan2025.start && dayDate <= ramadan2025.end;
@@ -241,6 +241,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     calendarDays.addEventListener("click", (e) => {
         if (e.target.dataset.day) {
+            // Add selection animation
+            e.target.animate([
+                { transform: 'scale(1)', opacity: 1 },
+                { transform: 'scale(0.95)', opacity: 0.8 },
+                { transform: 'scale(1)', opacity: 1 }
+            ], { duration: 300, easing: 'ease-out' });
+            
             selectedDate = new Date(
                 currentDate.getFullYear(),
                 currentDate.getMonth(),
@@ -249,9 +256,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const dateString = selectedDate.toLocaleDateString('en-US', {
                 weekday: 'short', month: 'short', day: 'numeric'
             });
-            selectedDateElement.innerHTML = `${dateString}<br>
-                <span class="text-rose-300/80 text-xs">Sehri End: ${ramadan2025.times[selectedDate.getDate()].sehriEnd}</span>
-                <span class="text-amber-400/90 text-xs">Iftar Start: ${ramadan2025.times[selectedDate.getDate()].iftarStart}</span>`;
+            selectedDateElement.innerHTML = `
+                <div class="holographic-text">
+                    ${dateString}<br>
+                    <span class="text-rose-300/80">${ramadan2025.times[selectedDate.getDate()].sehriEnd}</span>
+                    <span class="text-amber-400/90">${ramadan2025.times[selectedDate.getDate()].iftarStart}</span>
+                </div>`;
             notesDateElement.textContent = dateString;
             renderCalendar();
             displayTasks();
