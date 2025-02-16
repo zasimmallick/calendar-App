@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const addNoteBtn = document.getElementById("addNote");
     const notesList = document.getElementById("notesList");
     const notesDateElement = document.getElementById("notesDate");
-    let selectedDate = null;
+    let selectedDate = new Date();
     let tasks = {};
     let notes = {};
 
@@ -155,11 +155,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addTask() {
-        if (!selectedDate || !todoInput.value.trim()) return;
+        if (!todoInput.value.trim()) return;
         const dateKey = selectedDate.toISOString().split('T')[0];
         tasks[dateKey] = [...(tasks[dateKey] || []), { text: todoInput.value.trim(), completed: false }];
         todoInput.value = "";
         displayTasks();
+        
+        // Add animation feedback
+        todoInput.animate([
+            { transform: 'translateY(0)', opacity: 1 },
+            { transform: 'translateY(-5px)', opacity: 0.5 },
+            { transform: 'translateY(0)', opacity: 1 }
+        ], { duration: 300 });
     }
 
     function toggleTask(dateKey, index) {
@@ -193,11 +200,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addNote() {
-        if (!selectedDate || !noteInput.value.trim()) return;
+        if (!noteInput.value.trim()) return;
         const dateKey = selectedDate.toISOString().split('T')[0];
         notes[dateKey] = [...(notes[dateKey] || []), noteInput.value.trim()];
         noteInput.value = "";
         displayNotes();
+        
+        // Add animation feedback
+        noteInput.animate([
+            { transform: 'scale(1)', opacity: 1 },
+            { transform: 'scale(0.98)', opacity: 0.8 },
+            { transform: 'scale(1)', opacity: 1 }
+        ], { duration: 200 });
     }
 
     function deleteNote(dateKey, index) {
@@ -256,12 +270,20 @@ document.addEventListener("DOMContentLoaded", function () {
             const dateString = selectedDate.toLocaleDateString('en-US', {
                 weekday: 'short', month: 'short', day: 'numeric'
             });
+            
+            // Fixed Ramadan time display with validation
+            const isRamadan = selectedDate >= ramadan2025.start && selectedDate <= ramadan2025.end;
+            const ramadanDay = selectedDate.getDate();
+            
             selectedDateElement.innerHTML = `
                 <div class="holographic-text">
                     ${dateString}<br>
-                    <span class="text-rose-300/80">${ramadan2025.times[selectedDate.getDate()].sehriEnd}</span>
-                    <span class="text-amber-400/90">${ramadan2025.times[selectedDate.getDate()].iftarStart}</span>
+                    ${isRamadan ? `
+                        <span class="text-rose-300/80">${ramadan2025.times[ramadanDay].sehriEnd}</span>
+                        <span class="text-amber-400/90">${ramadan2025.times[ramadanDay].iftarStart}</span>
+                    ` : ''}
                 </div>`;
+            
             notesDateElement.textContent = dateString;
             renderCalendar();
             displayTasks();
@@ -275,8 +297,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     renderCalendar();
 });
-
-// In renderCalendar function, update dayClass to:
-let dayClass = "p-1 sm:p-2 text-center rounded-lg cursor-pointer";
 
 
