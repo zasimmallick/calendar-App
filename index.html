@@ -35,20 +35,36 @@
         <div id="calendarDays" class="grid grid-cols-7 gap-2"></div>
     </div>
 
-    <!-- Updated Todo Widget -->
-    <div class="bg-slate-900/80 shadow-2xl shadow-cyan-500/10 rounded-xl p-6 border border-cyan-500/20 h-full">
-        <div class="flex items-center gap-3 mb-6">
-            <h2 class="text-lg font-semibold text-cyan-400/90 neon-text">TASKS</h2>
-            <span id="selectedDate" class="text-sm text-cyan-400/60"></span>
+    <!-- Modern Todo Widget -->
+    <div class="bg-slate-900/80 backdrop-blur-md shadow-2xl shadow-cyan-500/10 rounded-2xl p-6 border border-cyan-500/20 h-full transition-all hover:border-cyan-400/40 group">
+        <div class="flex items-center gap-3 mb-6 group">
+            <div class="w-1 h-6 bg-gradient-to-b from-cyan-400 to-blue-600 rounded-full transition-all group-hover:h-8"></div>
+            <h2 class="text-xl font-semibold bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+                <span class="inline-block mr-2">🚀</span>TASKS
+            </h2>
+            <span id="selectedDate" class="text-sm bg-cyan-500/10 px-2 py-1 rounded-md text-cyan-400/80 ml-auto"></span>
         </div>
         <div class="flex gap-2 mb-4 flex-col">
             <input id="todoInput" type="text" placeholder="New mission..." 
-                   class="futuristic-input input input-lg text-slate-200/90 placeholder-cyan-400/30">
-            <button id="addTodo" class="btn btn-lg bg-gradient-to-r from-cyan-600/40 to-blue-600/40 hover:from-cyan-600/60 hover:to-blue-600/60 border-none text-cyan-400/90 neon-text">
-                ➕ Add Task
+                   class="input-lg bg-slate-800/20 backdrop-blur-sm border-2 border-cyan-500/20 focus:border-cyan-400/40 focus:ring-2 focus:ring-cyan-400/20 text-slate-200/90 placeholder-cyan-400/40 transition-all
+                          [border-image:linear-gradient(to_right,rgba(34,211,238,0.2),rgba(59,130,246,0.2))_1]">
+            <button id="addTodo" class="btn btn-lg transform transition-all hover:scale-[1.02] bg-gradient-to-r from-cyan-500 to-blue-600 hover:to-blue-500 border-none text-white font-semibold gap-2 shadow-lg shadow-cyan-500/20">
+                <span class="text-xl">+</span> Add Task
             </button>
         </div>
-        <div id="todoList" class="space-y-2"></div>
+        <div id="todoList" class="space-y-3">
+            <!-- Todo items template -->
+            <div class="todo-item bg-gradient-to-r from-slate-800/40 to-slate-900/40 p-4 rounded-xl border border-cyan-500/20 hover:border-cyan-400/40 transition-all hover:scale-[1.01]">
+                <div class="flex items-start">
+                    <div class="w-1 bg-gradient-to-b from-cyan-400 to-blue-600 h-full rounded-full mr-3"></div>
+                    <p class="text-slate-200/90 flex-1"></p>
+                    <button class="btn btn-circle btn-xs bg-cyan-500/10 border-cyan-500/20 hover:bg-cyan-500/20 text-cyan-400/80 hover:text-cyan-300">
+                        ✓
+                    </button>
+                    <span class="text-xs text-cyan-500/60 ml-2">12:34 PM</span>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Modern Notes Widget -->
     <div class="bg-slate-900/80 backdrop-blur-md shadow-2xl shadow-cyan-500/10 rounded-2xl p-6 border border-cyan-500/20 h-full transition-all hover:border-cyan-400/40">
