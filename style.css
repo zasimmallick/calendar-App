@@ -40,15 +40,6 @@
             box-shadow: 0 0 16px rgba(98,234,213,0.1);
         }
 
-        .ramadan-marker {
-            content: "🕌";
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            font-size: 0.7rem;
-            opacity: 0.6;
-        }
-
         /* Holographic shine effect on hover */
         .calendar-day:hover:after {
             content: '';

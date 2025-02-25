@@ -18,43 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let notes = {};
 
     let currentDate = new Date();
-    
-    const ramadan2025 = {
-        start: new Date(2025, 2, 1),  // March 1, 2025
-        end: new Date(2025, 2, 30),   // March 30, 2025
-        times: {
-            1: { sehriEnd: "5:05 AM", iftarStart: "6:20 PM" },
-            2: { sehriEnd: "5:04 AM", iftarStart: "6:20 PM" },
-            3: { sehriEnd: "5:03 AM", iftarStart: "6:21 PM" },
-            4: { sehriEnd: "5:02 AM", iftarStart: "6:21 PM" },
-            5: { sehriEnd: "5:01 AM", iftarStart: "6:21 PM" },
-            6: { sehriEnd: "5:00 AM", iftarStart: "6:22 PM" },
-            7: { sehriEnd: "4:59 AM", iftarStart: "6:22 PM" },
-            8: { sehriEnd: "4:58 AM", iftarStart: "6:22 PM" },
-            9: { sehriEnd: "4:57 AM", iftarStart: "6:23 PM" },
-            10: { sehriEnd: "4:56 AM", iftarStart: "6:23 PM" },
-            11: { sehriEnd: "4:55 AM", iftarStart: "6:23 PM" },
-            12: { sehriEnd: "4:54 AM", iftarStart: "6:24 PM" },
-            13: { sehriEnd: "4:53 AM", iftarStart: "6:24 PM" },
-            14: { sehriEnd: "4:52 AM", iftarStart: "6:24 PM" },
-            15: { sehriEnd: "4:51 AM", iftarStart: "6:25 PM" },
-            16: { sehriEnd: "4:50 AM", iftarStart: "6:25 PM" },
-            17: { sehriEnd: "4:49 AM", iftarStart: "6:25 PM" },
-            18: { sehriEnd: "4:48 AM", iftarStart: "6:26 PM" },
-            19: { sehriEnd: "4:47 AM", iftarStart: "6:26 PM" },
-            20: { sehriEnd: "4:46 AM", iftarStart: "6:26 PM" },
-            21: { sehriEnd: "4:45 AM", iftarStart: "6:27 PM" },
-            22: { sehriEnd: "4:44 AM", iftarStart: "6:27 PM" },
-            23: { sehriEnd: "4:43 AM", iftarStart: "6:27 PM" },
-            24: { sehriEnd: "4:42 AM", iftarStart: "6:28 PM" },
-            25: { sehriEnd: "4:41 AM", iftarStart: "6:28 PM" },
-            26: { sehriEnd: "4:40 AM", iftarStart: "6:28 PM" },
-            27: { sehriEnd: "4:39 AM", iftarStart: "6:29 PM" },
-            28: { sehriEnd: "4:38 AM", iftarStart: "6:29 PM" },
-            29: { sehriEnd: "4:37 AM", iftarStart: "6:29 PM" },
-            30: { sehriEnd: "4:36 AM", iftarStart: "6:30 PM" }
-        }
-    };
 
     function renderCalendar() {
         calendarDays.innerHTML = "";
@@ -104,27 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 dayClass += " bg-gradient-to-br from-emerald-600/60 to-cyan-600/60 shadow-lg shadow-emerald-500/30";
             }
 
-            const isRamadan = dayDate >= ramadan2025.start && dayDate <= ramadan2025.end;
-            const ramadanDay = dayDate.getDate();
-            const hasTimes = ramadan2025.times[ramadanDay];
-            
-            if (isRamadan) {
-                dayClass += " bg-rose-600/20 border border-rose-500/30";
-            }
-
             calendarDays.innerHTML += `
                 <div class="${dayClass}" data-day="${day}">
-                    <div class="flex flex-col items-center">
-                        ${day}
-                        ${isRamadan ? `
-                            <div class="text-[0.6rem] sm:text-xs space-y-0.5 mt-1 w-full">
-                                ${hasTimes ? `
-                                    <div class="text-rose-300/80" title="Sehri ends">${ramadan2025.times[ramadanDay].sehriEnd}</div>
-                                    <div class="text-amber-400/90" title="Iftar begins">${ramadan2025.times[ramadanDay].iftarStart}</div>
-                                ` : '<div class="h-4"></div>'}
-                            </div>
-                        ` : ''}
-                    </div>
+                    ${day}
                 </div>`;
         }
     }
@@ -271,19 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 weekday: 'short', month: 'short', day: 'numeric'
             });
             
-            // Fixed Ramadan time display with validation
-            const isRamadan = selectedDate >= ramadan2025.start && selectedDate <= ramadan2025.end;
-            const ramadanDay = selectedDate.getDate();
-            
-            selectedDateElement.innerHTML = `
-                <div class="holographic-text">
-                    ${dateString}<br>
-                    ${isRamadan ? `
-                        <span class="text-rose-300/80">${ramadan2025.times[ramadanDay].sehriEnd}</span>
-                        <span class="text-amber-400/90">${ramadan2025.times[ramadanDay].iftarStart}</span>
-                    ` : ''}
-                </div>`;
-            
+            selectedDateElement.textContent = dateString;
             notesDateElement.textContent = dateString;
             renderCalendar();
             displayTasks();
