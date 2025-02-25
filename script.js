@@ -298,6 +298,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     renderCalendar();
     displayImportantDates();
+
+    function updateTimeline() {
+        const now = new Date();
+        let startDate = TIMELINE_START;
+        let endDate = TIMELINE_END;
+        
+        // Only use current date if we're within the timeline period
+        let effectiveDate = now < TIMELINE_START ? TIMELINE_START : 
+                           now > TIMELINE_END ? TIMELINE_END : now;
+
+        // Always calculate from official start to end, subtracting elapsed time
+        const elapsedMs = effectiveDate - TIMELINE_START;
+        const totalMs = TIMELINE_END - TIMELINE_START;
+        const remainingMs = totalMs - elapsedMs;
+
+        // Calculate time differences using remaining duration
+        const totalDays = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+        const totalMonths = (TIMELINE_END.getFullYear() - TIMELINE_START.getFullYear()) * 12 
+                          + (TIMELINE_END.getMonth() - TIMELINE_START.getMonth());
+        
+        // ... rest of the calculations remain the same ...
+    }
 });
 
 
