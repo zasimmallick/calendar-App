@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         { 
             date: new Date(2027, 0, 29), // January 29 2027
-            title: "Life-Changing Event",
-            description: "Special meeting with significant person - Pivotal life moment - Inshallah"
+            title: "Important",
+            description: "Inshallah"
         }
     ];
 
