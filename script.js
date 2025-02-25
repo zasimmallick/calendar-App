@@ -9,21 +9,80 @@ document.addEventListener("DOMContentLoaded", function () {
     const addTodoBtn = document.getElementById("addTodo");
     const todoList = document.getElementById("todoList");
     const selectedDateElement = document.getElementById("selectedDate");
-    const noteInput = document.getElementById("noteInput");
-    const addNoteBtn = document.getElementById("addNote");
     const notesList = document.getElementById("notesList");
-    const notesDateElement = document.getElementById("notesDate");
     let selectedDate = new Date();
     let tasks = {};
-    let notes = {};
 
     let currentDate = new Date();
 
+    const TIMELINE_START = new Date(2025, 2, 1); // March 1 2025
+    const TIMELINE_END = new Date(2027, 0, 29); // January 29 2027
+    const MILESTONES = [
+        { 
+            date: new Date(2025, 4, 31), // May 31 2025
+            title: "Front-end Development Mastery",
+            description: "Complete front-end web development with full English proficiency (HTML, CSS, JavaScript, React) - Inshallah"
+        },
+        { 
+            date: new Date(2025, 5, 1), // June 1 2025
+            title: "Front-end Job Preparation Phase",
+            description: "Intensive preparation for front-end developer positions (June 1-30 2025) - Resume, portfolio, interviews practice - Inshallah"
+        },
+        { 
+            date: new Date(2025, 6, 1), // July 1 2025
+            title: "Secure Front-end Position",
+            description: "Obtain full-time front-end developer role with competitive salary - Inshallah"
+        },
+        { 
+            date: new Date(2025, 5, 1), // June 1 2025
+            title: "Full Stack Development Journey",
+            description: "Begin full stack development studies (Node.js, Databases, APIs) through November 30 2025 - Inshallah"
+        },
+        { 
+            date: new Date(2025, 10, 30), // November 30 2025
+            title: "Full Stack Mastery Achieved",
+            description: "Complete advanced full stack development curriculum - Inshallah"
+        },
+        { 
+            date: new Date(2025, 11, 1), // December 1 2025
+            title: "Full Stack Job Preparation",
+            description: "December 2025 intensive job search preparation for full stack roles - Inshallah"
+        },
+        { 
+            date: new Date(2026, 0, 1), // January 1 2026
+            title: "Secure Full Stack Position",
+            description: "Begin full-time full stack developer role with architecture responsibilities - Inshallah"
+        },
+        { 
+            date: new Date(2026, 0, 1), // January 1 2026
+            title: "AI Engineering Launch",
+            description: "Start AI/ML engineering studies alongside professional work - Continuous learning path - Inshallah"
+        },
+        { 
+            date: new Date(2026, 0, 1), // January 1 2026
+            title: "AI Product Development",
+            description: "Begin building AI-powered SaaS products and intelligent agents - Inshallah"
+        },
+        { 
+            date: new Date(2027, 0, 1), // January 1 2027
+            title: "AI Startup Launch",
+            description: "Official launch of AI startup solving real-world problems with revenue potential - Inshallah"
+        },
+        { 
+            date: new Date(2027, 0, 29), // January 29 2027
+            title: "Life-Changing Event",
+            description: "Special meeting with significant person - Pivotal life moment - Inshallah"
+        }
+    ];
+
     function renderCalendar() {
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+        
         calendarDays.innerHTML = "";
         
-        let year = currentDate.getFullYear();
-        let month = currentDate.getMonth();
+        let year = currentYear;
+        let month = currentMonth;
         let firstDay = new Date(year, month, 1).getDay();
         let lastDate = new Date(year, month + 1, 0).getDate();
 
@@ -67,9 +126,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 dayClass += " bg-gradient-to-br from-emerald-600/60 to-cyan-600/60 shadow-lg shadow-emerald-500/30";
             }
 
+            // Timeline highlighting
+            if (dayDate >= TIMELINE_START && dayDate <= TIMELINE_END) {
+                dayClass += " bg-gradient-to-br from-purple-500/20 to-pink-500/20";
+            }
+
+            // Add cross symbol for end date
+            let dayContent = `${day}`;
+            if (dayDate.getTime() === TIMELINE_END.getTime()) {
+                dayContent += '<span class="absolute top-0 right-0 text-red-500/80 text-xs">✕</span>';
+            }
+
+            // Add milestone tooltips
+            const milestone = MILESTONES.find(m => 
+                m.date.getFullYear() === dayDate.getFullYear() &&
+                m.date.getMonth() === dayDate.getMonth() &&
+                m.date.getDate() === dayDate.getDate()
+            );
+
+            if (milestone) {
+                dayClass += " relative group";
+                dayContent += `
+                    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block
+                                bg-slate-900/90 backdrop-blur-sm px-3 py-2 rounded-lg text-xs
+                                border border-cyan-500/20 w-48 text-center z-10">
+                        <div class="text-cyan-400/80 font-medium">${milestone.title}</div>
+                    </div>
+                `;
+            }
+
             calendarDays.innerHTML += `
                 <div class="${dayClass}" data-day="${day}">
-                    ${day}
+                    ${dayContent}
                 </div>`;
         }
     }
@@ -124,65 +212,24 @@ document.addEventListener("DOMContentLoaded", function () {
         displayTasks();
     }
 
-    function displayNotes() {
-        notesList.innerHTML = "";
-        if (!selectedDate) return;
-        
-        const dateKey = selectedDate.toISOString().split('T')[0];
-        (notes[dateKey] || []).forEach((note, index) => {
-            const noteElement = document.createElement("div");
-            noteElement.className = "group relative p-4 rounded-lg bg-slate-800/30 border border-slate-700/30";
-            noteElement.innerHTML = `
-                <p class="text-slate-200/80 whitespace-pre-wrap">${note}</p>
-                <button class="absolute -top-2 -right-2 btn btn-circle btn-xs btn-ghost text-red-400/80 opacity-0 group-hover:opacity-100 transition-opacity">
-                    ✕
-                </button>
-            `;
-            
-            noteElement.querySelector('button').addEventListener('click', () => deleteNote(dateKey, index));
-            notesList.appendChild(noteElement);
-        });
+    function displayImportantDates() {
+        notesList.innerHTML = MILESTONES.map(milestone => `
+            <div class="milestone-item bg-gradient-to-r from-slate-800/40 to-slate-900/40 p-4 rounded-xl border border-emerald-500/20 hover:border-emerald-400/40 transition-all">
+                <div class="flex items-start">
+                    <div class="w-1 bg-emerald-400 h-full rounded-full mr-3"></div>
+                    <div class="flex-1">
+                        <div class="text-emerald-400/90 font-semibold text-sm">🌟 ${milestone.title}</div>
+                        <div class="text-slate-400/80 text-xs mt-1">
+                            ${milestone.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                        </div>
+                        <div class="text-slate-300/70 text-xs mt-2 leading-relaxed">
+                            ${milestone.description}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
     }
-
-    function addNote() {
-        if (!noteInput.value.trim()) return;
-        const dateKey = selectedDate.toISOString().split('T')[0];
-        notes[dateKey] = [...(notes[dateKey] || []), noteInput.value.trim()];
-        noteInput.value = "";
-        displayNotes();
-        
-        // Add animation feedback
-        noteInput.animate([
-            { transform: 'scale(1)', opacity: 1 },
-            { transform: 'scale(0.98)', opacity: 0.8 },
-            { transform: 'scale(1)', opacity: 1 }
-        ], { duration: 200 });
-    }
-
-    function deleteNote(dateKey, index) {
-        notes[dateKey].splice(index, 1);
-        displayNotes();
-    }
-
-    prevMonthBtn.addEventListener("click", () => {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar();
-    });
-
-    nextMonthBtn.addEventListener("click", () => {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar();
-    });
-
-    monthSelect.addEventListener("change", () => {
-        currentDate.setMonth(monthSelect.value);
-        renderCalendar();
-    });
-
-    yearInput.addEventListener("change", () => {
-        currentDate.setFullYear(yearInput.value);
-        renderCalendar();
-    });
 
     function updateClock() {
         const now = new Date();
@@ -217,18 +264,40 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             
             selectedDateElement.textContent = dateString;
-            notesDateElement.textContent = dateString;
             renderCalendar();
             displayTasks();
-            displayNotes();
+            displayImportantDates();
         }
     });
 
     addTodoBtn.addEventListener("click", addTask);
     todoInput.addEventListener("keypress", (e) => e.key === 'Enter' && addTask());
-    addNoteBtn.addEventListener("click", addNote);
+
+    prevMonthBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextMonthBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+
+    monthSelect.addEventListener("change", () => {
+        currentDate.setMonth(parseInt(monthSelect.value));
+        renderCalendar();
+    });
+
+    yearInput.addEventListener("change", () => {
+        const newYear = parseInt(yearInput.value);
+        if (!isNaN(newYear) && newYear > 0) {
+            currentDate.setFullYear(newYear);
+            renderCalendar();
+        }
+    });
 
     renderCalendar();
+    displayImportantDates();
 });
 
 
