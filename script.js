@@ -301,25 +301,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateTimeline() {
         const now = new Date();
-        let startDate = TIMELINE_START;
-        let endDate = TIMELINE_END;
         
-        // Only use current date if we're within the timeline period
-        let effectiveDate = now < TIMELINE_START ? TIMELINE_START : 
-                           now > TIMELINE_END ? TIMELINE_END : now;
-
-        // Always calculate from official start to end, subtracting elapsed time
-        const elapsedMs = effectiveDate - TIMELINE_START;
+        // Calculate time differences
         const totalMs = TIMELINE_END - TIMELINE_START;
-        const remainingMs = totalMs - elapsedMs;
+        const elapsedMs = Math.max(0, now - TIMELINE_START);
+        const remainingMs = Math.max(0, TIMELINE_END - now);
 
-        // Calculate time differences using remaining duration
-        const totalDays = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
-        const totalMonths = (TIMELINE_END.getFullYear() - TIMELINE_START.getFullYear()) * 12 
-                          + (TIMELINE_END.getMonth() - TIMELINE_START.getMonth());
+        // Calculate years, months, and days
+        const years = Math.floor(remainingMs / (1000 * 60 * 60 * 24 * 365.25));
+        const months = Math.floor((remainingMs % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+        const days = Math.floor((remainingMs % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
         
-        // ... rest of the calculations remain the same ...
+        // Calculate total values
+        const totalDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
+        const totalWeeks = Math.floor(totalDays / 7);
+        const remainingDays = totalDays % 7;
+        const totalMonths = Math.floor(totalDays / 30.44);
+        const monthDays = Math.floor(totalDays % 30.44);
+
+        // Update the metrics
+        document.getElementById('yearsMetric').textContent = 
+            `${years} years ${months} months ${days} days`;
+        document.getElementById('monthsMetric').textContent = 
+            `${totalMonths} months ${monthDays} days`;
+        document.getElementById('weeksMetric').textContent = 
+            `${totalWeeks} weeks ${remainingDays} days`;
+        document.getElementById('totalDaysMetric').textContent = 
+            `${totalDays} days`;
     }
+
+    updateTimeline(); // Initial call
+    setInterval(updateTimeline, 1000 * 60); // Update every minute
 });
-
-
