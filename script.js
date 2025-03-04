@@ -16,62 +16,57 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentDate = new Date();
 
     const TIMELINE_START = new Date(2025, 2, 1); // March 1 2025
-    const TIMELINE_END = new Date(2027, 0, 29); // January 29 2027
+    const TIMELINE_END = new Date(2026, 10, 13); // November 13 2026
     const MILESTONES = [
         { 
             date: new Date(2025, 4, 31), // May 31 2025
-            title: "Front-end Development Mastery",
-            description: "Complete front-end web development with full English proficiency (HTML, CSS, JavaScript, React) - Inshallah"
+            title: "Milestone 1: Front-end Development Completed",
+            description: "Front-end web development completed by May 31, 2025. And must be fluent in English Inshallah."
         },
         { 
             date: new Date(2025, 5, 1), // June 1 2025
-            title: "Front-end Job Preparation Phase",
-            description: "Intensive preparation for front-end developer positions (June 1-30 2025) - Resume, portfolio, interviews practice - Inshallah"
+            title: "Milestone 2: Front-end Job Preparation",
+            description: "Preparation for a front-end web developer position from June 1st to June 30 Inshallah."
         },
         { 
             date: new Date(2025, 6, 1), // July 1 2025
-            title: "Secure Front-end Position",
-            description: "Obtain full-time front-end developer role with competitive salary - Inshallah"
+            title: "Milestone 3: Secure Front-end Position",
+            description: "Secure a front-end web developer position by July 1st Inshallah."
         },
         { 
             date: new Date(2025, 5, 1), // June 1 2025
-            title: "Full Stack Development Journey",
-            description: "Begin full stack development studies (Node.js, Databases, APIs) through November 30 2025 - Inshallah"
-        },
-        { 
-            date: new Date(2025, 10, 30), // November 30 2025
-            title: "Full Stack Mastery Achieved",
-            description: "Complete advanced full stack development curriculum - Inshallah"
+            title: "Milestone 4: Full Stack Development Begins",
+            description: "Full stack development will begin on June 1st and end on November 30th Inshallah."
         },
         { 
             date: new Date(2025, 11, 1), // December 1 2025
-            title: "Full Stack Job Preparation",
-            description: "December 2025 intensive job search preparation for full stack roles - Inshallah"
+            title: "Milestone 5: Full-stack Preparation",
+            description: "Preparation for full-stack developer position from December 1 to December 31 Inshallah."
         },
         { 
             date: new Date(2026, 0, 1), // January 1 2026
-            title: "Secure Full Stack Position",
-            description: "Begin full-time full stack developer role with architecture responsibilities - Inshallah"
+            title: "Milestone 6: Secure Full-stack Position",
+            description: "Secure a full-stack developer position by January 1st Inshallah."
         },
         { 
             date: new Date(2026, 0, 1), // January 1 2026
-            title: "AI Engineering Launch",
-            description: "Start AI/ML engineering studies alongside professional work - Continuous learning path - Inshallah"
+            title: "Milestone 7: AI Engineering Studies Begin",
+            description: "I will begin my AI engineering studies on January 1, 2026, and will continue learning thereafter Inshallah."
         },
         { 
             date: new Date(2026, 0, 1), // January 1 2026
-            title: "AI Product Development",
-            description: "Begin building AI-powered SaaS products and intelligent agents - Inshallah"
+            title: "Milestone 8: AI Product Development",
+            description: "I will develop AI products, such as AI SaaS and AI agents while continuing to learn Inshallah."
+        },
+        { 
+            date: new Date(2026, 10, 13), // November 13 2026
+            title: "Milestone 9: AI Startup Launch",
+            description: "I will be 23 years old on November 13, 2026, Before I turned 23. I have to launch an exceptional AI startup, Inshallah. That addresses real-life problems and generates revenue Inshallah."
         },
         { 
             date: new Date(2027, 0, 1), // January 1 2027
-            title: "AI Startup Launch",
-            description: "Official launch of AI startup solving real-world problems with revenue potential - Inshallah"
-        },
-        { 
-            date: new Date(2027, 0, 29), // January 29 2027
-            title: "Important",
-            description: "Inshallah"
+            title: "Milestone 10: Significant Life Event",
+            description: "I wanted to speak with someone special before January 1, 2027, this will be the most significant day of my life Inshallah."
         }
     ];
 
