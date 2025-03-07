@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentDate = new Date();
 
-    const TIMELINE_START = new Date(2025, 2, 1); // March 1 2025
+    const TIMELINE_START = new Date(2025, 2, 8); // March 8 2025
     const TIMELINE_END = new Date(2026, 10, 13); // November 13 2026
     const MILESTONES = [
         { 
-            date: new Date(2025, 4, 31), // May 31 2025
+            date: new Date(2025, 4, 30), // May 30 2025
             title: "Milestone 1: Front-end Development Completed",
-            description: "Front-end web development completed by May 31, 2025. And must be fluent in English Inshallah."
+            description: "Front-end web development completed by May 30, 2025. And must be fluent in English Inshallah."
         },
         { 
             date: new Date(2025, 5, 1), // June 1 2025
@@ -69,6 +69,9 @@ document.addEventListener("DOMContentLoaded", function () {
             description: "I wanted to speak with someone special before January 1, 2027, this will be the most significant day of my life Inshallah."
         }
     ];
+
+    const MILESTONE_1_START = new Date(2025, 2, 8); // March 8, 2025
+    const MILESTONE_1_END = new Date(2025, 4, 30); // May 30, 2025
 
     function renderCalendar() {
         const currentMonth = currentDate.getMonth();
@@ -302,10 +305,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const elapsedMs = Math.max(0, now - TIMELINE_START);
         const remainingMs = Math.max(0, TIMELINE_END - now);
 
-        // Calculate years, months, and days
+        // Calculate years, months, days, and hours
         const years = Math.floor(remainingMs / (1000 * 60 * 60 * 24 * 365.25));
         const months = Math.floor((remainingMs % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
         const days = Math.floor((remainingMs % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         
         // Calculate total values
         const totalDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
@@ -316,15 +320,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update the metrics
         document.getElementById('yearsMetric').textContent = 
-            `${years} years ${months} months ${days} days`;
+            `${years} years ${months} months ${days} days ${hours} hours`;
         document.getElementById('monthsMetric').textContent = 
-            `${totalMonths} months ${monthDays} days`;
+            `${totalMonths} months ${monthDays} days ${hours} hours`;
         document.getElementById('weeksMetric').textContent = 
-            `${totalWeeks} weeks ${remainingDays} days`;
+            `${totalWeeks} weeks ${remainingDays} days ${hours} hours`;
         document.getElementById('totalDaysMetric').textContent = 
-            `${totalDays} days`;
+            `${totalDays} days ${hours} hours`;
     }
 
     updateTimeline(); // Initial call
     setInterval(updateTimeline, 1000 * 60); // Update every minute
+
+    function updateMilestone1Timeline() {
+        const now = new Date();
+        
+        // Calculate time differences
+        const totalMs = MILESTONE_1_END - MILESTONE_1_START;
+        const elapsedMs = Math.max(0, now - MILESTONE_1_START);
+        const remainingMs = Math.max(0, MILESTONE_1_END - now);
+
+        // Calculate months, days, and hours
+        const totalDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
+        const totalWeeks = Math.floor(totalDays / 7);
+        const remainingDays = totalDays % 7;
+        const totalMonths = Math.floor(totalDays / 30.44);
+        const monthDays = Math.floor(totalDays % 30.44);
+        const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        // Update the metrics
+        document.getElementById('milestone1MonthsMetric').textContent = 
+            `${totalMonths} months ${monthDays} days ${hours} hours`;
+        document.getElementById('milestone1WeeksMetric').textContent = 
+            `${totalWeeks} weeks ${remainingDays} days ${hours} hours`;
+        document.getElementById('milestone1TotalDaysMetric').textContent = 
+            `${totalDays} days ${hours} hours`;
+    }
+
+    updateMilestone1Timeline(); // Initial call
+    setInterval(updateMilestone1Timeline, 1000 * 60); // Update every minute
 });
