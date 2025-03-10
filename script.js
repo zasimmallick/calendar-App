@@ -237,8 +237,13 @@ document.addEventListener("DOMContentLoaded", function () {
             minute: '2-digit',
             second: '2-digit'
         });
+        const dateString = now.toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
         document.getElementById('liveClock').textContent = timeString;
+        document.getElementById('liveDate').textContent = dateString;
     }
+
 
     setInterval(updateClock, 1000);
     updateClock(); // Initial call
