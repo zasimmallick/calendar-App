@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentDate = new Date();
 
-    const TIMELINE_START = new Date(2025, 2, 11); // March 11 2025
+    const TIMELINE_START = new Date(2025, 2, 13); // March 13 2025
     const TIMELINE_END = new Date(2026, 10, 13); // November 13 2026
     const MILESTONES = [
         { 
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     ];
 
-    const MILESTONE_1_START = new Date(2025, 2, 11); // March 11, 2025
+    const MILESTONE_1_START = new Date(2025, 2, 13); // March 13, 2025
     const MILESTONE_1_END = new Date(2025, 4, 30); // May 30, 2025
 
     function renderCalendar() {
