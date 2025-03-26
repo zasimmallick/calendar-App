@@ -15,23 +15,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentDate = new Date();
 
-    const TIMELINE_START = new Date(2025, 2, 15); // March 15 2025
-    const TIMELINE_END = new Date(2026, 10, 13); // November 13 2026
+    const TIMELINE_START = new Date(2025, 6, 1); // July 1, 2025
+    const TIMELINE_END = new Date(2026, 6, 1); // July 1, 2026
     const MILESTONES = [
         { 
-            date: new Date(2025, 4, 30), // May 30 2025
-            title: "Milestone 1: Front-end Development Completed",
-            description: "Front-end web development completed by May 30, 2025. And must be fluent in English Inshallah."
+            date: new Date(2025, 4, 31), // May 31 2025
+            title: "Milestone 1: Web Development Completed",
+            description: "web development completed by May 31, 2025. And must be fluent in English Inshallah."
         },
         { 
             date: new Date(2025, 5, 1), // June 1 2025
-            title: "Milestone 2: Front-end Job Preparation",
-            description: "Preparation for a front-end web developer position from June 1st to June 30 Inshallah."
+            title: "Milestone 2: Web Dev Freelancing preparation or Job Preparation",
+            description: "Preparation for a web developer position from June 1st to June 31 Inshallah."
         },
         { 
             date: new Date(2025, 6, 1), // July 1 2025
-            title: "Milestone 3: Secure Front-end Position",
-            description: "Secure a front-end web developer position by July 1st Inshallah."
+            title: "Milestone 3: Secure Web Dev Freelancing",
+            description: "Secure a web developer Freelancing by July 1st Inshallah."
         },
         { 
             date: new Date(2025, 5, 1), // June 1 2025
@@ -59,19 +59,19 @@ document.addEventListener("DOMContentLoaded", function () {
             description: "I will develop AI products, such as AI SaaS and AI agents while continuing to learn Inshallah."
         },
         { 
-            date: new Date(2026, 10, 13), // November 13 2026
-            title: "Milestone 9: AI Startup Launch",
-            description: "I will be 23 years old on November 13, 2026, Before I turned 23. I have to launch an exceptional AI startup, Inshallah. That addresses real-life problems and generates revenue Inshallah."
+            date: new Date(2026, 6, 1), // July 1 2026
+            title: "Milestone 9: Significant Life Event",
+            description: "I wanted to speak with someone special before July 1, 2026, this will be the most significant day of my life Inshallah."
         },
         { 
-            date: new Date(2027, 0, 1), // January 1 2027
-            title: "Milestone 10: Significant Life Event",
-            description: "I wanted to speak with someone special before January 1, 2027, this will be the most significant day of my life Inshallah."
+            date: new Date(2026, 10, 13), // November 13 2026
+            title: "Milestone 10: AI Startup Launch",
+            description: "I will be 23 years old on November 13, 2026, Before I turned 23. I have to launch an exceptional AI startup, Inshallah. That addresses real-life problems and generates revenue Inshallah."
         }
     ];
 
-    const MILESTONE_1_START = new Date(2025, 2, 15); // March 15, 2025
-    const MILESTONE_1_END = new Date(2025, 4, 30); // May 30, 2025
+    const MILESTONE_1_START = new Date(2025, 3, 1); // April 1, 2025
+    const MILESTONE_1_END = new Date(2025, 4, 31); // May 31, 2025
 
     function renderCalendar() {
         const currentMonth = currentDate.getMonth();
